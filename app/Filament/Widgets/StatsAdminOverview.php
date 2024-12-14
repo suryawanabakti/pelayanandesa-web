@@ -2,6 +2,11 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\Aduan;
+use App\Models\Dokumen;
+use App\Models\Informasi;
+use App\Models\Permohonan;
+use Carbon\Carbon;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -10,18 +15,24 @@ class StatsAdminOverview extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Unique views', '192.1k')
-                ->description('32k increase')
+            Stat::make('Jumlah Permohonan', Permohonan::count())
+                ->description(Permohonan::whereMonth('created_at', Carbon::now()->month)
+                    ->whereYear('created_at', Carbon::now()->year)
+                    ->count() . ' bertambah di bulan ini')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->color('success'),
-            Stat::make('Bounce rate', '21%')
-                ->description('7% increase')
-                ->descriptionIcon('heroicon-m-arrow-trending-down')
-                ->color('danger'),
-            Stat::make('Average time on page', '3:12')
-                ->description('3% increase')
+                ->color('primary'),
+            Stat::make('Jumlah Dokumen', Dokumen::count())
+                ->description(Dokumen::whereMonth('created_at', Carbon::now()->month)
+                    ->whereYear('created_at', Carbon::now()->year)
+                    ->count() . ' bertambah di bulan ini')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->color('success'),
+                ->color('primary'),
+            Stat::make('Jumlah Informasi', Informasi::count())
+                ->description(Informasi::whereMonth('created_at', Carbon::now()->month)
+                    ->whereYear('created_at', Carbon::now()->year)
+                    ->count() . ' bertambah di bulan ini')
+                ->descriptionIcon('heroicon-m-arrow-trending-up')
+                ->color('primary'),
         ];
     }
 }
