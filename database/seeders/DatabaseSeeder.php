@@ -31,13 +31,5 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('qwerty123'),
             'role' => 'masyarakat'
         ]);
-
-        Aduan::create([
-            'user_id' => 2,
-            'jenis_layanan' => 'Layanan 1',
-            'tanggal' => '2024-12-01',
-            'keterangan' => 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo ex necessitatibus mollitia, adipisci, perferendis dolore assumenda sequi exercitationem neque eius harum. Laboriosam tenetur, repellat ducimus dolores eius ut explicabo odio.',
-            'status' => 'DIAJUKAN',
-        ]);
     }
 }
