@@ -10,6 +10,7 @@ use Illuminate\Validation\ValidationException;
 
 class Login extends BaseAuth
 {
+
     public function form(Form $form): Form
     {
         return $form

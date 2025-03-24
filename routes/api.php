@@ -14,6 +14,14 @@ Route::get('/v1/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+Route::post('/v1/logout', function (Request $request) {
+    // Revoke all tokens of the authenticated user
+    $request->user()->tokens()->delete();
+    return response()->json(['message' => 'Logged out from all devices'], 200);
+});
+
+
+
 Route::post('/v1/login', function (Request $request) {
 
     $request->validate([
@@ -28,6 +36,30 @@ Route::post('/v1/login', function (Request $request) {
             'email' => ['The provided credentials are incorrect.'],
         ]);
     }
+
+    return [
+        "user" => $user,
+        "token" => $user->createToken("api")->plainTextToken
+    ];
+});
+
+Route::post('/v1/register', function (Request $request) {
+
+    $request->validate([
+        'name' => 'required|string',
+        'nik' => 'required|string',
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    $user = User::create([
+        'name' => $request->name,
+        'nik' => $request->nik,
+        'email' => $request->email,
+        'username' => $request->email,
+        'role' => 'masyarakat',
+        'password' => Hash::make($request->password),
+    ]);
 
     return [
         "user" => $user,

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class PermohonanController extends Controller
 {
+
     public function index()
     {
         return response()->json([
@@ -17,16 +18,23 @@ class PermohonanController extends Controller
 
     public function store(Request $request)
     {
+
         $validatedData = $request->validate([
             'tanggal' => ['required', 'date'],
             'jenis_layanan' => ['required'],
             'keterangan' => ['required'],
         ]);
+
         $validatedData['user_id'] = $request->user()->id;
         $validatedData['status'] = 'DIAJUKAN';
 
         if ($request->has('file')) {
-            $validatedData = $request->file('file')->store($request->user()->username . '/permohonan');
+
+            $request->validate([
+                'file' => ['required', 'file'],
+            ]);
+
+            $validatedData['file'] = $request->file('file')->store($request->user()->username . '/permohonan');
         }
 
         Permohonan::create($validatedData);
