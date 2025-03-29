@@ -7,6 +7,7 @@ use App\Filament\Resources\DokumenResource\RelationManagers;
 use App\Models\Dokumen;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -40,6 +41,11 @@ class DokumenResource extends Resource
         return $form
             ->schema([
                 FileUpload::make('file')->columnSpan(2)->required()->directory('dokumen'),
+                Select::make('masyarakat_id')->options(
+                    function () {
+                        return \App\Models\User::where('role', 'masyarakat')->pluck('name', 'id');
+                    }
+                )->label('Masyarakat')->searchable()->preload(),
                 TextInput::make('nama')->required()
             ]);
     }

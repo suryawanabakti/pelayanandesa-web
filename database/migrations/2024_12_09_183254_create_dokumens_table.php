@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('dokumen', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('masyarakat_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->string('nama');
             $table->string('file');
             $table->timestamps();

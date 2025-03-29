@@ -30,7 +30,11 @@ Route::post('/v1/login', function (Request $request) {
     ]);
 
     $user = User::where('email', $request->email)->first();
-
+    if ($user->is_approve == 0) {
+        throw ValidationException::withMessages([
+            'email' => ['Akun kamu belum di approve oleh admin. harap tunggu'],
+        ]);
+    }
     if (! $user || ! Hash::check($request->password, $user->password)) {
         throw ValidationException::withMessages([
             'email' => ['The provided credentials are incorrect.'],

@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DokumenResource extends JsonResource
+class InformasiResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,11 @@ class DokumenResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "nama" => $this->nama,
-            'created_at' => $this->created_at->format('d M Y H:i:s'),
-            "file" => url('storage/' . $this->file)
+            "gambar" => url('storage/' . $this->gambar),
+            "judul" => $this->judul,
+            "created_at" => $this->created_at,
+            "isi" => $this->isi,
+            "type" => $this->type,
         ];
     }
 }

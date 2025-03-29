@@ -32,6 +32,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
      * @var array<int, string>
      */
     protected $fillable = [
+        'is_approve',
         'name',
         'email',
         'username',

@@ -8,6 +8,7 @@ use App\Models\Informasi;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -40,6 +41,10 @@ class InformasiResource extends Resource
             ->schema([
                 FileUpload::make('gambar')->image()->columnSpan(2)->directory('informasi')->required(),
                 TextInput::make('judul')->required()->columnSpan(2),
+                Select::make('type')->options([
+                    'artikel' => 'Artikel',
+                    'pengumuman' => 'Pengumuman',
+                ])->required()->columnSpan(2),
                 RichEditor::make('isi')->required()->columnSpan(2),
             ]);
     }

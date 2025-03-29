@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\InformasiResource;
 use App\Models\Informasi;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,7 @@ class InformationController extends Controller
     public function index()
     {
         return response()->json([
-            'data' => Informasi::all()
+            'data' => InformasiResource::collection(Informasi::latest()->get())
         ], 200);
     }
 
