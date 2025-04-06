@@ -14,11 +14,7 @@ Route::get('/v1/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('/v1/logout', function (Request $request) {
-    // Revoke all tokens of the authenticated user
-    $request->user()->tokens()->delete();
-    return response()->json(['message' => 'Logged out from all devices'], 200);
-});
+
 
 
 
@@ -72,6 +68,11 @@ Route::post('/v1/register', function (Request $request) {
 });
 
 Route::middleware(["auth:sanctum"])->group(function () {
+    Route::post('/v1/logout', function (Request $request) {
+        // Revoke all tokens of the authenticated user
+        $request->user()->tokens()->delete();
+        return response()->json(['message' => 'Logged out from all devices'], 200);
+    });
 
     Route::get("/v1/permohonan", [PermohonanController::class, 'index']);
     Route::post("/v1/permohonan", [PermohonanController::class, 'store']);
