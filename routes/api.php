@@ -21,21 +21,19 @@ Route::get('/v1/user', function (Request $request) {
 Route::post('/v1/login', function (Request $request) {
 
     $request->validate([
-        'email' => 'required|email',
+        'email' => 'required',
         'password' => 'required',
     ]);
 
     $user = User::where('email', $request->email)->first();
-    if ($user->is_approve == 0) {
-        throw ValidationException::withMessages([
-            'email' => ['Akun kamu belum di approve oleh admin. harap tunggu'],
-        ]);
-    }
+
     if (! $user || ! Hash::check($request->password, $user->password)) {
         throw ValidationException::withMessages([
             'email' => ['The provided credentials are incorrect.'],
         ]);
     }
+
+    $user->update(['has_login' => 1]);
 
     return [
         "user" => $user,
@@ -48,17 +46,17 @@ Route::post('/v1/register', function (Request $request) {
     $request->validate([
         'name' => 'required|string',
         'nik' => 'required|string',
-        'email' => 'required|email',
         'password' => 'required',
     ]);
 
     $user = User::create([
         'name' => $request->name,
         'nik' => $request->nik,
-        'email' => $request->email,
-        'username' => $request->email,
+        'email' => $request->nik,
+        'username' => $request->nik,
         'role' => 'masyarakat',
         'password' => Hash::make($request->password),
+        'is_approve' => true,
     ]);
 
     return [
@@ -79,6 +77,7 @@ Route::middleware(["auth:sanctum"])->group(function () {
     Route::post("/v1/permohonan/{permohonan}", [PermohonanController::class, 'update']);
     Route::delete("/v1/permohonan/{permohonan}", [PermohonanController::class, 'destroy']);
 
+
     Route::get("/v1/informasi", [InformationController::class, 'index']);
     Route::get("/v1/informasi/{informasi}", [InformationController::class, 'show']);
 
@@ -87,3 +86,5 @@ Route::middleware(["auth:sanctum"])->group(function () {
     Route::get("/v1/dokumen", [DokumenController::class, 'index']);
     Route::get('/v1/download-pdf/{path}', [DokumenController::class, 'download']);
 });
+Route::get('/permohonan/{permohonan}/cetak', [PermohonanController::class, 'cetakSuratKematian'])
+    ->name('permohonan.cetak');

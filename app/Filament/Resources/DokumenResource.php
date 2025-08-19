@@ -30,6 +30,11 @@ class DokumenResource extends Resource
     {
         return ['nama'];
     }
+    public static function canAccess(): bool
+    {
+        return auth()->user()->email === 'admin@gmail.com';
+    }
+
 
     public static function getPluralModelLabel(): string
     {
@@ -41,11 +46,11 @@ class DokumenResource extends Resource
         return $form
             ->schema([
                 FileUpload::make('file')->columnSpan(2)->required()->directory('dokumen'),
-                Select::make('masyarakat_id')->options(
-                    function () {
-                        return \App\Models\User::where('role', 'masyarakat')->pluck('name', 'id');
-                    }
-                )->label('Masyarakat')->searchable()->preload(),
+                // Select::make('masyarakat_id')->options(
+                //     function () {
+                //         return \App\Models\User::where('role', 'masyarakat')->pluck('name', 'id');
+                //     }
+                // )->label('Masyarakat')->searchable()->preload(),
                 TextInput::make('nama')->required()
             ]);
     }

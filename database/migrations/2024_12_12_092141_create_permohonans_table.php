@@ -14,10 +14,21 @@ return new class extends Migration
         Schema::create('permohonan', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('jenis_layanan');
+            $table->string('jenis_layanan'); // surat keterangan tidak mampu, surat pindah penduduk, dll
             $table->date('tanggal');
+
+            // Personal information fields
+            $table->string('nama');
+            $table->string('tempat_lahir');
+            $table->date('tanggal_lahir');
+            $table->string('nama_orang_tua');
+            $table->string('nik', 16);
+            $table->integer('umur');
+            $table->text('alamat');
+            $table->string('pekerjaan');
+
             $table->text('keterangan');
-            $table->enum('status', ['DIAJUKAN', 'DIPROSES', 'SELESAI', 'DITOLAK']);
+            $table->enum('status', ['DIAJUKAN', 'DIPROSES', 'SELESAI', 'DITOLAK'])->default('DIAJUKAN');
             $table->string('file')->nullable();
             $table->timestamps();
         });
@@ -28,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('permohonans');
+        Schema::dropIfExists('permohonan');
     }
 };

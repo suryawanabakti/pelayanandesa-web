@@ -26,6 +26,11 @@ class InformasiResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
     protected static ?string $navigationGroup = 'Main Menu';
     protected static ?string $navigationLabel = 'Informasi';
+    public static function canAccess(): bool
+    {
+        return auth()->user()->email === 'admin@gmail.com';
+    }
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['judul', 'isi'];

@@ -34,6 +34,45 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login(Login::class)
+            ->renderHook('panels::body.start', fn() => '<style>
+            /* HEADER / TOPBAR */
+            .fi-topbar > nav {
+                background: linear-gradient(90deg, #0f766e, #14b8a6) !important; /* teal-700 to teal-400 */
+                color: white !important;
+            }
+    
+           
+    
+            /* SIDEBAR */
+            /* === SIDEBAR === */
+            .fi-sidebar {
+                background-color: #ffffff !important;
+                color: #334155 !important; /* slate-700 */
+                border-right: 1px solid #e5e7eb;
+            }
+    
+            .fi-sidebar-item {
+                color: #334155 !important; /* slate-700 */
+                fill: #334155 !important;
+                transition: all 0.2s ease-in-out;
+                border-left: 4px solid transparent;
+            }
+    
+            .fi-sidebar-item:hover {
+                background-color: #f0fdfa !important; /* teal-50 */
+                color: #0f766e !important; /* teal-700 */
+                fill: #0f766e !important;
+                border-left: 4px solid #0f766e;
+            }
+    
+            .fi-sidebar-item-active {
+                background-color: #ccfbf1 !important; /* teal-100 */
+                color: #0f766e !important;
+                fill: #0f766e !important;
+                border-left: 4px solid #0f766e;
+            }
+        
+        </style>')
             ->colors([
                 'primary' => Color::Red,
             ])
